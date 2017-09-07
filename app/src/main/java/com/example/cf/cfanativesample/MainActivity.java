@@ -1,6 +1,9 @@
 package com.example.cf.cfanativesample;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +16,11 @@ import android.widget.TextView;
 import com.clickforce.ad.Listener.AdNativeListener;
 import com.clickforce.ad.CFNativeAd;
 import com.facebook.ads.AdError;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -75,12 +83,12 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onFBNativeAdResult(CFNativeAd cfNativeAd) {
 
-                nativeAdTitle.setText(cfNativeAd.getAdTitle());
-                nativeAdContent.setText(cfNativeAd.getAdContent());
+                nativeAdTitle.setText(cfNativeAd.getFBAdTitle());
+                nativeAdContent.setText(cfNativeAd.getFBAdBody());
                 nativeAdvertiser.setText("Sponsored");
-                nativeAdButtonText.setText(cfNativeAd.getAdButtonText());
+                nativeAdButtonText.setText(cfNativeAd.getFBAdCallToAction());
 
-                cfNativeAd.downloadAndDisplayImage(cfNativeAd.getAdCoverImage(),nativeImage);
+                downloadAndDisplayImage(cfNativeAd.getFBAdCoverImageURL(),nativeImage);
                 cfNativeAd.registerViewForInteraction(adView,nativeAdButtonText);
             }
 
@@ -101,5 +109,50 @@ public class MainActivity extends AppCompatActivity  {
         });
 
 
+    }
+
+
+    public void downloadAndDisplayImage(final String coverImg, final ImageView imageView){
+
+        AsyncTask<String, Void, Bitmap> task = new AsyncTask<String, Void, Bitmap>() {
+            @Override
+            protected void onPreExecute() {
+
+            }
+
+            @Override
+            protected Bitmap doInBackground(String... params) {
+
+                return getBitmapFromURL(coverImg);
+            }
+
+            @Override
+            protected void onPostExecute(Bitmap bitmap) {
+
+                imageView.setImageBitmap(bitmap);
+            }
+
+        };
+        task.execute();
+    }
+
+    //讀取網路圖片，型態為Bitmap
+    private static Bitmap getBitmapFromURL(String imageUrl)
+    {
+        try
+        {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            return bitmap;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
