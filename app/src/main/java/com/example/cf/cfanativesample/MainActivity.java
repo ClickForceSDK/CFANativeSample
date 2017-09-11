@@ -25,33 +25,18 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity  {
 
     private CFNativeAd nativeAd;
-    private LinearLayout adView;
+
     private Context context = this;
-
+    private LinearLayout adView;
     private LinearLayout adContainer ;
-    private LayoutInflater inflater ;
 
-    private TextView nativeAdTitle ;
-    private TextView nativeAdContent;
-    private TextView nativeAdvertiser ;
-    private Button nativeAdButtonText ;
-    private ImageView nativeImage ;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        adContainer = (LinearLayout)findViewById(R.id.native_ad_container);
-        inflater = LayoutInflater.from(this);
-        adView = (LinearLayout)inflater.inflate(R.layout.native_ad_layout,adContainer,false);
-        adContainer.addView(adView);
-
-        nativeAdTitle = (TextView)adView.findViewById(R.id.native_ad_title);
-        nativeAdContent = (TextView)adView.findViewById(R.id.native_ad_content);
-        nativeAdvertiser = (TextView)adView.findViewById(R.id.native_ad_advertiser);
-        nativeAdButtonText = (Button)adView.findViewById(R.id.native_ad_buttonText);
-        nativeImage = (ImageView)adView.findViewById(R.id.native_ad_coverimage);
 
         nativeAd = new CFNativeAd(this);
         nativeAd.setAdID("5236"); //測試版位
@@ -60,6 +45,19 @@ public class MainActivity extends AppCompatActivity  {
         nativeAd.setOnNativeListener(new AdNativeListener() {
             @Override
             public void onNativeAdResult(CFNativeAd cfNativeAd) {
+
+
+                adContainer = (LinearLayout)findViewById(R.id.native_ad_container);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                adView = (LinearLayout)inflater.inflate(R.layout.native_ad_layout,adContainer,false);
+                adContainer.addView(adView);
+
+                TextView nativeAdTitle = (TextView)adView.findViewById(R.id.native_ad_title);
+                TextView nativeAdContent = (TextView)adView.findViewById(R.id.native_ad_content);
+                TextView nativeAdvertiser = (TextView)adView.findViewById(R.id.native_ad_advertiser);
+                Button nativeAdButtonText = (Button)adView.findViewById(R.id.native_ad_buttonText);
+                ImageView nativeImage = (ImageView)adView.findViewById(R.id.native_ad_coverimage);
+
 
                 nativeAdTitle.setText(cfNativeAd.getAdTitle());
                 nativeAdContent.setText(cfNativeAd.getAdContent());
@@ -83,13 +81,26 @@ public class MainActivity extends AppCompatActivity  {
             @Override
             public void onFBNativeAdResult(CFNativeAd cfNativeAd) {
 
+                adContainer = (LinearLayout)findViewById(R.id.native_ad_container);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                adView = (LinearLayout)inflater.inflate(R.layout.native_ad_layout,adContainer,false);
+                adContainer.addView(adView);
+
+                TextView nativeAdTitle = (TextView)adView.findViewById(R.id.native_ad_title);
+                TextView nativeAdContent = (TextView)adView.findViewById(R.id.native_ad_content);
+                TextView nativeAdvertiser = (TextView)adView.findViewById(R.id.native_ad_advertiser);
+                Button nativeAdButtonText = (Button)adView.findViewById(R.id.native_ad_buttonText);
+                ImageView nativeImage = (ImageView)adView.findViewById(R.id.native_ad_coverimage);
+
+                Log.d("CFCFCF",cfNativeAd.getFBAdChoicesLinkUrl());
                 nativeAdTitle.setText(cfNativeAd.getFBAdTitle());
                 nativeAdContent.setText(cfNativeAd.getFBAdBody());
                 nativeAdvertiser.setText("Sponsored");
                 nativeAdButtonText.setText(cfNativeAd.getFBAdCallToAction());
 
                 downloadAndDisplayImage(cfNativeAd.getFBAdCoverImageURL(),nativeImage);
-                cfNativeAd.registerViewForInteraction(adView,nativeAdButtonText);
+//                cfNativeAd.registerViewForInteraction(adView,nativeAdButtonText);
+                cfNativeAd.setFBClick(adView);
             }
 
             @Override
