@@ -59,5 +59,11 @@
             android:layout_weight="1"
             android:text="Button" />
     </LinearLayout>
+    <com.facebook.ads.MediaView
+        android:id="@+id/native_ad_media"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:gravity="center"
+        />
 
 </LinearLayout>

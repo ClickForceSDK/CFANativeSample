@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.clickforce.ad.Listener.AdNativeListener;
 import com.clickforce.ad.CFNativeAd;
 import com.facebook.ads.AdError;
+import com.facebook.ads.MediaView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -91,15 +92,16 @@ public class MainActivity extends AppCompatActivity  {
                 TextView nativeAdvertiser = (TextView)adView.findViewById(R.id.native_ad_advertiser);
                 Button nativeAdButtonText = (Button)adView.findViewById(R.id.native_ad_buttonText);
                 ImageView nativeImage = (ImageView)adView.findViewById(R.id.native_ad_coverimage);
+                MediaView nativeAdMedia = (MediaView) adView.findViewById(R.id.native_ad_media);
 
-                Log.d("CFCFCF",cfNativeAd.getFBAdChoicesLinkUrl());
                 nativeAdTitle.setText(cfNativeAd.getFBAdTitle());
                 nativeAdContent.setText(cfNativeAd.getFBAdBody());
                 nativeAdvertiser.setText("Sponsored");
                 nativeAdButtonText.setText(cfNativeAd.getFBAdCallToAction());
 
+                cfNativeAd.setMediaview(nativeAdMedia);
                 downloadAndDisplayImage(cfNativeAd.getFBAdCoverImageURL(),nativeImage);
-//                cfNativeAd.registerViewForInteraction(adView,nativeAdButtonText);
+
                 cfNativeAd.setFBClick(adView);
             }
 
