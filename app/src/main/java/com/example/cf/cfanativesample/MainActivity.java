@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity  {
                 cfNativeAd.setMediaview(nativeAdMedia);
                 downloadAndDisplayImage(cfNativeAd.getFBAdCoverImageURL(),nativeImage);
 
+                LinearLayout adChoicesContainer = (LinearLayout) findViewById(R.id.ad_choices_container);
+                adChoicesContainer.addView(cfNativeAd.getFBAdChoicesView());
+
                 cfNativeAd.setFBClick(adView);
             }
 
