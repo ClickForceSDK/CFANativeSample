@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +23,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity  {
 
@@ -40,7 +43,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
         nativeAd = new CFNativeAd(this);
-        nativeAd.setAdID("5236"); //測試版位
+        nativeAd.setAdID("5229"); //測試版位 FB廣告版位:5236
         nativeAd.outputDebugInfo = true;
 
         nativeAd.setOnNativeListener(new AdNativeListener() {
@@ -66,7 +69,12 @@ public class MainActivity extends AppCompatActivity  {
                 nativeAdButtonText.setText(cfNativeAd.getAdButtonText());
 
                 cfNativeAd.downloadAndDisplayImage(cfNativeAd.getAdCoverImage(),nativeImage);
-                cfNativeAd.registerViewForInteraction(adView,nativeAdButtonText);
+
+                List<View> clickListView = new ArrayList<>();
+                clickListView.add(nativeAdTitle);
+                clickListView.add(nativeAdButtonText);
+                cfNativeAd.registerViewForInteraction(clickListView);
+
             }
 
             @Override
@@ -105,7 +113,7 @@ public class MainActivity extends AppCompatActivity  {
                 LinearLayout adChoicesContainer = (LinearLayout) findViewById(R.id.ad_choices_container);
                 adChoicesContainer.addView(cfNativeAd.getFBAdChoicesView());
 
-                cfNativeAd.setFBClick(adView);
+                cfNativeAd.setFBClick(nativeAdButtonText);
             }
 
             @Override
