@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.clickforce.ad.Listener.AdNativeListener;
 import com.clickforce.ad.CFNativeAd;
 import com.facebook.ads.AdError;
+import com.facebook.ads.AdIconView;
 import com.facebook.ads.MediaView;
 
 import java.io.IOException;
@@ -43,7 +44,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
 
         nativeAd = new CFNativeAd(this);
-        nativeAd.setAdID("5229"); //測試版位 FB廣告版位:5236
+        nativeAd.setAdID("7614"); //測試版位 FB廣告版位:5236
         nativeAd.outputDebugInfo = true;
 
         nativeAd.setOnNativeListener(new AdNativeListener() {
@@ -99,21 +100,24 @@ public class MainActivity extends AppCompatActivity  {
                 TextView nativeAdContent = (TextView)adView.findViewById(R.id.native_ad_content);
                 TextView nativeAdvertiser = (TextView)adView.findViewById(R.id.native_ad_advertiser);
                 Button nativeAdButtonText = (Button)adView.findViewById(R.id.native_ad_buttonText);
-                ImageView nativeImage = (ImageView)adView.findViewById(R.id.native_ad_coverimage);
+                AdIconView adIconView = (AdIconView)adView.findViewById(R.id.native_ad_icon);
                 MediaView nativeAdMedia = (MediaView) adView.findViewById(R.id.native_ad_media);
 
-                nativeAdTitle.setText(cfNativeAd.getFBAdTitle());
+                nativeAdTitle.setText(cfNativeAd.getFBAdvertiserName());
                 nativeAdContent.setText(cfNativeAd.getFBAdBody());
                 nativeAdvertiser.setText("Sponsored");
                 nativeAdButtonText.setText(cfNativeAd.getFBAdCallToAction());
 
-                cfNativeAd.setMediaview(nativeAdMedia);
-                downloadAndDisplayImage(cfNativeAd.getFBAdCoverImageURL(),nativeImage);
-
                 LinearLayout adChoicesContainer = (LinearLayout) findViewById(R.id.ad_choices_container);
                 adChoicesContainer.addView(cfNativeAd.getFBAdChoicesView());
 
-                cfNativeAd.setFBClick(nativeAdButtonText);
+                //Set Click
+                List<View> clickableViews = new ArrayList<>();
+                clickableViews.add(nativeAdTitle);
+                clickableViews.add(nativeAdContent);
+                clickableViews.add(nativeAdButtonText);
+
+                cfNativeAd.setFbRegisterViewForInteraction(adView,nativeAdMedia,adIconView,clickableViews);
             }
 
             @Override

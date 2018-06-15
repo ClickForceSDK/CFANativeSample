@@ -69,8 +69,21 @@
     <com.facebook.ads.MediaView
         android:id="@+id/native_ad_media"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="230dp"
         android:gravity="center"
         />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <com.facebook.ads.AdIconView
+            android:id="@+id/native_ad_icon"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+
+    </LinearLayout>
 
 </LinearLayout>
