@@ -18,6 +18,7 @@ import com.clickforce.ad.Listener.AdNativeListener;
 import com.clickforce.ad.CFNativeAd;
 import com.facebook.ads.AdError;
 import com.facebook.ads.AdIconView;
+import com.facebook.ads.AdSettings;
 import com.facebook.ads.MediaView;
 
 import java.io.IOException;
@@ -42,16 +43,13 @@ public class MainActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         nativeAd = new CFNativeAd(this);
-        nativeAd.setAdID("7614"); //測試版位 FB廣告版位:5236
+        nativeAd.setAdID("8384"); //測試版位 FB廣告版位:5236
         nativeAd.outputDebugInfo = true;
 
         nativeAd.setOnNativeListener(new AdNativeListener() {
             @Override
             public void onNativeAdResult(CFNativeAd cfNativeAd) {
-
-
                 adContainer = (LinearLayout)findViewById(R.id.native_ad_container);
                 LayoutInflater inflater = LayoutInflater.from(context);
                 adView = (LinearLayout)inflater.inflate(R.layout.native_ad_layout,adContainer,false);
@@ -75,6 +73,7 @@ public class MainActivity extends AppCompatActivity  {
                 clickListView.add(nativeAdTitle);
                 clickListView.add(nativeAdButtonText);
                 cfNativeAd.registerViewForInteraction(clickListView);
+                nativeAd.setActiveViewLog(adContainer);
 
             }
 
@@ -85,12 +84,11 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onNativeAdOnFailed() {
-
+                Log.d("error","NO Error");
             }
 
             @Override
             public void onFBNativeAdResult(CFNativeAd cfNativeAd) {
-
                 adContainer = (LinearLayout)findViewById(R.id.native_ad_container);
                 LayoutInflater inflater = LayoutInflater.from(context);
                 adView = (LinearLayout)inflater.inflate(R.layout.native_ad_layout,adContainer,false);
@@ -122,12 +120,12 @@ public class MainActivity extends AppCompatActivity  {
 
             @Override
             public void onFBNativeClick() {
-
+                Log.d("FB","onFBNativeClick");
             }
 
             @Override
             public void onFBNativeImpression() {
-
+                Log.d("FB","onFBNativeImpression");
             }
 
             @Override
@@ -135,6 +133,7 @@ public class MainActivity extends AppCompatActivity  {
                 Log.d("FB error",adError.getErrorMessage());
             }
         });
+
 
 
     }
