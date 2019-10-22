@@ -72,8 +72,7 @@ public class MainActivity extends AppCompatActivity  {
                 List<View> clickListView = new ArrayList<>();
                 clickListView.add(nativeAdTitle);
                 clickListView.add(nativeAdButtonText);
-                cfNativeAd.registerViewForInteraction(clickListView);
-                nativeAd.setActiveViewLog(adContainer);
+                cfNativeAd.registerViewForInteraction(adContainer,clickListView);
 
             }
 
